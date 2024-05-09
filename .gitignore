@@ -1,1 +1,13 @@
 data/ArchiveII.pickle
+Ufold_embed.npy
+*.pyc
+data/bpnew.cPickle
+data/input.txt
+data/merge_allbpnew_mutate.cdhit.fa
+data/TS0.cPickle
+data/TS1.cPickle
+data/TS2.cPickle
+data/TS3.cPickle
+models/ufold_train_alldata.pt
+models/ufold_train_pdbfinetune.pt
+models/ufold_train.pt

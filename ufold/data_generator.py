@@ -227,7 +227,7 @@ class RNASSDataGenerator_input(object):
         self.seq = [itm.strip().upper().replace('T','U') for itm in input_file if itm.upper().startswith(('A','U','C','G','T'))]
         self.len = len(self.seq)
         self.seq_length = np.array([len(item) for item in self.seq])
-        self.data_x = np.array([self.one_hot_600(item) for item in self.seq])
+        self.data_x = [self.one_hot_600(item) for item in self.seq]
         self.seq_max_len = 600
         self.data_y = self.data_x
 
@@ -241,7 +241,7 @@ class RNASSDataGenerator_input(object):
         if len(seq_item) <= 600:
             one_hot_matrix_600 = np.zeros((600,4))
         else:
-            one_hot_matrix_600 = np.zeros((600,4))
+            one_hot_matrix_600 = np.zeros((len(seq_item),4))
             # one_hot_matrix_600 = np.zeros((len(seq_item),4))
         one_hot_matrix_600[:len(seq_item),] = feat
         return one_hot_matrix_600
@@ -888,7 +888,7 @@ def creatmat(data, device=None):
         mat = torch.tensor([[paired[x+y] for y in data] for x in data]).to(device)
         n = len(data)
 
-        i, j = torch.meshgrid(torch.arange(n).to(device), torch.arange(n).to(device), indexing=None)
+        i, j = torch.meshgrid(torch.arange(n).to(device), torch.arange(n).to(device), indexing="ij")
         t = torch.arange(30).to(device)
         m1 = torch.where((i[:, :, None] - t >= 0) & (j[:, :, None] + t < n), mat[torch.clamp(i[:,:,None]-t, 0, n-1), torch.clamp(j[:,:,None]+t, 0, n-1)], 0)
         m1 *= torch.exp(-0.5*t*t)
